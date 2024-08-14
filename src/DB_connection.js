@@ -1,67 +1,40 @@
-require('dotenv').config();
 const { Sequelize } = require('sequelize');
-const { DB_USER, DB_PASSWORD, DB_HOST ,DB_PORT,DB_BDD } = process.env;
-const ArticuloFunction=require('./models/Articulo')
-const CategoriaFunction=require('./models/Categoria')
-const ProvedorFunction=require('./models/Provedor')
+const ArticuloFunction = require('./models/Articulo');
+const CategoriaFunction = require('./models/Categoria');
+const ProvedorFunction = require('./models/Provedor');
 const ClienteFunction = require('./models/Cliente');
-const TicketFunction=require('./models/Ticket');
-const CompraFunction=require('./models/Compra');
+const TicketFunction = require('./models/Ticket');
+const TicketDataFunction = require('./models/TicketData');
+const CompraFunction = require('./models/Compra');
 
-// /**
-//  * Conexion con la base de datos
-//  */
-// const dataBase = new Sequelize(
-//    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_BDD}`,
-//    { logging: false, native: false }
-// );
+const CajaFunction = require('./models/Caja');
+const VendedorFunction = require('./models/Vendedor');
+const CotizacionFunction = require('./models/Cotizacion');
+const MercaderiaFunction = require('./models/Mercaderia');
+const ValidadorFunction = require("./models/Validador");
 
-// /***
-//  * Creacion de tablas
-//  */
-// ArticuloFunction(dataBase)
-// CategoriaFunction(dataBase)
-// FabricanteFunction(dataBase)
-// ProvedorFunction(dataBase)
+// Crear la instancia de Sequelize con la configuración por defecto para SQLite
+const dataBase = new Sequelize({
+   dialect: 'sqlite',
+   storage: 'tienda.sqlite',  // Esto creará el archivo 'tienda.sqlite' en el directorio actual
+   database: "tienda"
+});
 
-// /**
-//  * Tablas
-//  */
-// const {Articulo,Provedor,Categoria,Fabricante} =dataBase.models
+ArticuloFunction(dataBase);
+CategoriaFunction(dataBase);
+ProvedorFunction(dataBase);
+ClienteFunction(dataBase);
+TicketFunction(dataBase);
+CompraFunction(dataBase);
+VendedorFunction(dataBase);
+CajaFunction(dataBase);
+CotizacionFunction(dataBase);
+MercaderiaFunction(dataBase);
+ValidadorFunction(dataBase);
+TicketDataFunction(dataBase);
 
-
-// Categoria.hasMany(Articulo);
-// Articulo.belongsTo(Categoria);
-
-// Fabricante.hasMany(Articulo);
-// Articulo.belongsTo(Fabricante);
-
-// Provedor.hasMany(Articulo);
-// Articulo.belongsTo(Provedor);
-
-
-
-// module.exports = {
-//    Articulo,
-//    // Favorite,
-//    dataBase,
-// };
-
-const dataBase=new Sequelize({
-   dialect:'sqlite',
-   storage:'./tienda.sqlite',
-   database:"tienda"
-})
-
-ArticuloFunction(dataBase)
-CategoriaFunction(dataBase)
-ProvedorFunction(dataBase)
-
-ClienteFunction(dataBase)
-TicketFunction(dataBase)
-CompraFunction(dataBase)
 // Creación de tablas
-const { Articulo, Provedor, Categoria,Cliente,Ticket,Compra } = dataBase.models;
+const { Articulo, Provedor, Categoria, Cliente, Ticket, Compra, Caja, Vendedor, Cotizacion, Mercaderia, TicketData } = dataBase.models;
 
 Categoria.hasMany(Articulo, { foreignKey: 'CategoriaId' });
 Articulo.belongsTo(Categoria, { foreignKey: 'CategoriaId' });
@@ -69,23 +42,38 @@ Articulo.belongsTo(Categoria, { foreignKey: 'CategoriaId' });
 Provedor.hasMany(Articulo, { foreignKey: 'ProvedorId' });
 Articulo.belongsTo(Provedor, { foreignKey: 'ProvedorId' });
 
-Cliente.hasMany(Ticket)
-Ticket.belongsTo(Cliente)
+Cliente.hasMany(Ticket);
+Ticket.belongsTo(Cliente);
 
-Ticket.hasMany(Compra)
-Compra.belongsTo(Ticket)
+Vendedor.hasMany(Ticket, { foreignKey: 'VendedorId' });
+Ticket.belongsTo(Vendedor, { foreignKey: 'VendedorId' });
 
-Articulo.hasMany(Compra,{foreignKey:"ArticuloId"})
-Compra.belongsTo(Articulo,{foreignKey:"ArticuloId"})
+Ticket.hasMany(Compra);
+Compra.belongsTo(Ticket);
 
+// Articulo.hasMany(Compra,{foreignKey:"ArticuloId"})
+// Compra.belongsTo(Articulo,{foreignKey:"ArticuloId"})
 
+Caja.hasMany(Ticket);
+Ticket.belongsTo(Caja);
+
+Provedor.hasMany(Mercaderia);
+Mercaderia.belongsTo(Provedor);
+
+Vendedor.hasMany(Mercaderia);
+Mercaderia.belongsTo(Vendedor);
 
 module.exports = {
   dataBase,
+  Mercaderia,
   Articulo,
   Provedor,
   Categoria,
   Compra,
   Ticket,
-  Cliente
+  Cliente,
+  Vendedor,
+  Caja,
+  Cotizacion,
+  TicketData
 };

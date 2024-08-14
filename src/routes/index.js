@@ -1,61 +1,26 @@
-const express = require('express');
-const router = express.Router()
+const {Router} = require("express");
+const router = Router();
 
-const {postArticulo} =require('../controller/Articulo/postArticulo');
-const { getAllArticulos } = require('../controller/Articulo/getAllArticulo');
-const { getArticulo } = require('../controller/Articulo/getArticulo');
-const { getArticuloLike } = require('../controller/Articulo/getArticuloLike');
-const { updateArticulo } = require('../controller/Articulo/updateArticulo');
-const { postCategoria } = require('../controller/Categoria/postCategoria');
-const { postProvedor } = require('../controller/Provedor/postProvedor');
-const { postCompra } = require('../controller/Compra/postCompra');
-const { postTicket } = require('../controller/Ticket/postTicket');
-const { getAllCategoria } = require('../controller/Categoria/getAllCategorias');
-const { getAllProvedores } = require('../controller/Provedor/getAllProvedores');
-const { getAllCompras } = require('../controller/Compra/getAllCompras');
-const { getAllTickets } = require('../controller/Ticket/getAllTickets');
-const { postCliente } = require('../controller/Cliente/postCliente');
-const { getAllClientes } = require('../controller/Cliente/getAllClientes');
-const { getCliente } = require('../controller/Cliente/getCliente');
-const { getProvedor } = require('../controller/Provedor/getProvedor');
-const { getCategoria } = require('../controller/Categoria/getCategoria');
-const { getClienteLike } = require('../controller/Cliente/getClienteLike');
-const { getTicket } = require('../controller/Ticket/getTicket');
-const { getCompras } = require('../controller/Compra/getCompras');
-const { getArticuloByCategoria } = require('../controller/Articulo/getArticuloByCategoria');
+const articulosRoutes = require('./ArticulosRoutes');
+const categoriaRoutes = require('./CategoriaRoutes');
+const provedoresRoutes = require('./ProvedoresRoutes');
+const comprasRoutes = require('./ComprasRoutes');
+const cajaRoutes = require('./CajaRoutes');
+const ticketRoutes = require('./TicketRoutes');
+const clienteRoutes = require('./ClienteRoutes');
+const vendedorRoutes = require('./VendedorRoutes');
+const cotizacionRoutes = require('./CotizacionRoutes'); 
+const mercaderiaRoutes = require('./MercaderiaRoutes');
 
+router.use('/articulo', articulosRoutes);
+router.use('/categoria', categoriaRoutes);
+router.use('/provedores', provedoresRoutes);
+router.use('/compra', comprasRoutes);
+router.use('/caja', cajaRoutes);
+router.use('/ticket', ticketRoutes);
+router.use('/cliente', clienteRoutes);
+router.use('/vendedor', vendedorRoutes);
+router.use('/cotizacion', cotizacionRoutes);
+router.use('/mercaderia', mercaderiaRoutes);
 
-
-router.get('/articulo',getAllArticulos)
-router.get('/articulo/:id',getArticulo)
-router.get('/acate',getArticuloByCategoria)
-router.get('/articuloLike/:id',getArticuloLike)
-router.post('/articulo',postArticulo)
-router.post('/actualizararticulo',updateArticulo)
-
-
-router.get('/categoria',getAllCategoria)
-router.get('/categoria/:id',getCategoria)
-router.post('/categoria',postCategoria)
-
-router.get('/provedor',getAllProvedores)
-router.get('/provedor/:id',getProvedor)
-router.post('/provedor',postProvedor)
-
-router.get('/compra',getAllCompras)
-router.get('/compra/:id',getCompras)
-router.post('/compra',postCompra)
-
-router.get('/ticket',getAllTickets)
-router.get('/ticket/:id',getTicket)
-router.post('/ticket',postTicket)
-
-router.get('/cliente',getAllClientes)
-router.get('/cliente/:id',getCliente)
-router.get('/clienteLike/:id',getClienteLike)
-router.post('/cliente',postCliente)
-
-
-
-
-module.exports={router}
+module.exports = router;

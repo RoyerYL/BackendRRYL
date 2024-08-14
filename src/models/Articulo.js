@@ -60,6 +60,10 @@ module.exports = (sequelize) => {
          type:DataTypes.BOOLEAN,
          defaultValue:true,
       },
+      cantVendidos:{
+         type:DataTypes.INTEGER,
+         defaultValue:0,
+      },
       CategoriaId: {
          type: DataTypes.INTEGER,
          allowNull: true, // Permite que la clave foránea sea nula
@@ -68,5 +72,10 @@ module.exports = (sequelize) => {
          type: DataTypes.INTEGER,
          allowNull: true, // Permite que la clave foránea sea nula
        },
+       precioEnDolar:{
+         type: DataTypes.BOOLEAN,
+         defaultValue:false,
+         allowNull:true
+       }
    }, { timestamps: false });
 };
