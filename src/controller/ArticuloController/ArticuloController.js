@@ -487,16 +487,16 @@ const postArticulo = async (req, res) => {
         const [categoria, categoriaCreated] = await Categoria.findOrCreate({
             where: {
                 id: categoriaId || 0,
-                nameCategoria: categoriaId ? undefined : "No tiene categoria",
+                nameCategoria: categoriaId ? "" : "No tiene categoria",
             },
         });
 
         // Obtener o crear el proveedor
         const [provedor, provedorCreated] = await Provedor.findOrCreate({
             where: {
-                id: provedorId || undefined,
-                razonSocial: provedorId ? undefined : "No tiene provedor",
-                nombreComercial: provedorId ? undefined : "No tiene provedor",
+                id: provedorId || 0,
+                razonSocial: provedorId ? "" : "No tiene provedor",
+                nombreComercial: provedorId ? "" : "No tiene provedor",
             },
         });
 
