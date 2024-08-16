@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
          autoIncrement: true
       },
       razonSocial:{
-         type:DataTypes.INTEGER,
+         type:DataTypes.STRING,
          allowNull:false,
       },
       cuit:{
