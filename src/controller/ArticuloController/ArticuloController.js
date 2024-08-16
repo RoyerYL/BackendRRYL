@@ -484,13 +484,21 @@ const postArticulo = async (req, res) => {
 
     try {
         // Obtener o crear la categoría
+        console.log("INICIANDO CREACION");
+        
         const [categoria, categoriaCreated] = await Categoria.findOrCreate({
             where: {
                 id: categoriaId || 0,
                 nameCategoria: categoriaId ? "" : "No tiene categoria",
             },
         });
-
+        if (categoriaCreated) {
+            
+            console.log("INICIANDO CATEGORIA");
+        }else{
+            console.log("YA TIENE CATEGORIA");
+            
+        }
         // Obtener o crear el proveedor
         const [provedor, provedorCreated] = await Provedor.findOrCreate({
             where: {
@@ -499,7 +507,13 @@ const postArticulo = async (req, res) => {
                 nombreComercial: provedorId ? "" : "No tiene provedor",
             },
         });
-
+        if (provedorCreated) {
+         console.log("INICIANDO PROVEDOR");
+            
+        }else{
+            console.log("YA TIENE PROVEDOR");
+            
+        }
         // Crear el artículo con la relación establecida
         const articulo = await Articulo.create({
             id,
