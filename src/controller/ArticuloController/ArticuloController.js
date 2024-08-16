@@ -520,8 +520,6 @@ const postArticulo = async (req, res) => {
         iva,
         ganancia,
         precioVenta,
-        ProvedorId: provedor.id,
-        CategoriaId: categoria.id,
         precioEnDolar
       },
       defaults: {
