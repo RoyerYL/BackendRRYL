@@ -1,3 +1,5 @@
+require('dotenv').config();  // Esto carga las variables del archivo .env
+
 const { Sequelize } = require('sequelize');
 const ArticuloFunction = require('./models/Articulo');
 const CategoriaFunction = require('./models/Categoria');
@@ -6,20 +8,21 @@ const ClienteFunction = require('./models/Cliente');
 const TicketFunction = require('./models/Ticket');
 const TicketDataFunction = require('./models/TicketData');
 const CompraFunction = require('./models/Compra');
-
 const CajaFunction = require('./models/Caja');
 const VendedorFunction = require('./models/Vendedor');
 const CotizacionFunction = require('./models/Cotizacion');
 const MercaderiaFunction = require('./models/Mercaderia');
 const ValidadorFunction = require("./models/Validador");
 
-// Crear la instancia de Sequelize con la configuración por defecto para SQLite
-const dataBase = new Sequelize({
-   dialect: 'sqlite',
-   storage: 'tienda.sqlite',  // Esto creará el archivo 'tienda.sqlite' en el directorio actual
-   database: "tienda"
+// Crear la instancia de Sequelize usando las variables de entorno
+const dataBase = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  dialect: 'postgres',
+  logging: false,  // Desactiva el registro de consultas SQL
 });
 
+// Importar los modelos
 ArticuloFunction(dataBase);
 CategoriaFunction(dataBase);
 ProvedorFunction(dataBase);
@@ -33,7 +36,7 @@ MercaderiaFunction(dataBase);
 ValidadorFunction(dataBase);
 TicketDataFunction(dataBase);
 
-// Creación de tablas
+// Configurar las relaciones entre modelos
 const { Articulo, Provedor, Categoria, Cliente, Ticket, Compra, Caja, Vendedor, Cotizacion, Mercaderia, TicketData } = dataBase.models;
 
 Categoria.hasMany(Articulo, { foreignKey: 'CategoriaId' });
@@ -51,9 +54,6 @@ Ticket.belongsTo(Vendedor, { foreignKey: 'VendedorId' });
 Ticket.hasMany(Compra);
 Compra.belongsTo(Ticket);
 
-// Articulo.hasMany(Compra,{foreignKey:"ArticuloId"})
-// Compra.belongsTo(Articulo,{foreignKey:"ArticuloId"})
-
 Caja.hasMany(Ticket);
 Ticket.belongsTo(Caja);
 
@@ -63,6 +63,7 @@ Mercaderia.belongsTo(Provedor);
 Vendedor.hasMany(Mercaderia);
 Mercaderia.belongsTo(Vendedor);
 
+// Exportar la base de datos y modelos
 module.exports = {
   dataBase,
   Mercaderia,
