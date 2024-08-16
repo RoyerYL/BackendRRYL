@@ -1,12 +1,6 @@
 const { Articulo, Categoria, Provedor } = require("../../DB_connection")
 
 const postArticulo = async (req, res) => {
-
- 
-
-
-
-
     const {
         id,
         name,
@@ -26,9 +20,6 @@ const postArticulo = async (req, res) => {
 
     } = req.body;
 
-    // if (!id || !name || !stock || !costoPeso || !costoDolar || !iva || !ganancia || !precioVenta) {
-    //     return res.status(400).json({ error: "Faltan datos" })
-    // } else { console.log("todo en orden"); }
     if (id === null) console.log("falta id");
     if (name === null) console.log("falta name");
     if (stock === null) console.log("falta stock");
